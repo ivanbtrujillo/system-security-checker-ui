@@ -8,7 +8,7 @@ Before starting, it's necessary to create a `.env` file following the format of 
 
 ### Running the project
 
-````bash
+```bash
 npm run dev
 # or
 yarn dev
@@ -16,6 +16,7 @@ yarn dev
 pnpm dev
 # or
 bun dev
+```
 
 ### Building the project
 
@@ -27,5 +28,4 @@ yarn build
 pnpm build
 # or
 bun build
-
-````
+```
