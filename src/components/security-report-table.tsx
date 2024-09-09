@@ -39,6 +39,8 @@ export const SecurityReportTable: React.FC<SecurityReportTableProps> = ({
         <TableHeader className="bg-zinc-700">
           <TableRow className="border-b border-gray-700">
             <TableHead className="text-gray-300">Email</TableHead>
+            <TableHead className="text-gray-300">Operating System</TableHead>
+            <TableHead className="text-gray-300">OS version</TableHead>
             <TableHead className="text-gray-300">Disk encrypted</TableHead>
             <TableHead className="text-gray-300">Encryption type</TableHead>
             <TableHead className="text-gray-300">Antivirus</TableHead>
@@ -52,6 +54,8 @@ export const SecurityReportTable: React.FC<SecurityReportTableProps> = ({
           {reports.map(report => (
             <TableRow key={report.id} className="border-b border-gray-700">
               <TableCell>{report.email}</TableCell>
+              <TableCell>{report.operating_system}</TableCell>
+              <TableCell>{report.os_version}</TableCell>
               <TableCell
                 className={getStatusColor(report.disk_encrypted, "disk")}
               >

@@ -34,7 +34,13 @@ export function SecurityStatsChart({reports}: SecurityStatsChartProps) {
     report => report.screen_lock_active && (report.screen_lock_time ?? 0) <= 20
   ).length;
 
-  const data = {
+  const operatingSystemCount = reports.reduce((acc, report) => {
+    const os = report.operating_system || "Unknown";
+    acc[os] = (acc[os] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
+
+  const securityData = {
     labels: [
       "Disk encrypted",
       "Antivirus detected",
@@ -62,6 +68,26 @@ export function SecurityStatsChart({reports}: SecurityStatsChartProps) {
     ],
   };
 
+  const osColors = Object.keys(operatingSystemCount).reduce(
+    (acc, os, index) => {
+      const hue = (index * 137.5) % 360;
+      acc[os] = `hsla(${hue}, 70%, 60%, 0.8)`;
+      return acc;
+    },
+    {} as Record<string, string>
+  );
+
+  const osData = {
+    labels: Object.keys(operatingSystemCount),
+    datasets: [
+      {
+        label: "Sistemas Operativos",
+        data: Object.values(operatingSystemCount),
+        backgroundColor: Object.values(osColors),
+      },
+    ],
+  };
+
   const options = {
     responsive: true,
     scales: {
@@ -79,20 +105,50 @@ export function SecurityStatsChart({reports}: SecurityStatsChartProps) {
     },
     plugins: {
       legend: {
-        position: "top" as const,
-        color: "rgba(255, 255, 255, 0.9)",
+        labels: {
+          color: "white",
+        },
       },
-      title: {
+    },
+  };
+
+  const osOptions = {
+    ...options,
+    indexAxis: "y" as const,
+    plugins: {
+      legend: {
         display: true,
-        text: "Device Security Status",
-        color: "rgba(255, 255, 255, 0.9)",
+        position: "right" as const,
+        labels: {
+          generateLabels: (chart: any) => {
+            const datasets = chart.data.datasets;
+            return chart.data.labels.map((label: string, index: number) => ({
+              text: `${label}: ${datasets[0].data[index]}`,
+              fillStyle: osColors[label],
+              hidden: false,
+              fontColor: "white",
+            }));
+          },
+        },
       },
     },
   };
 
   return (
-    <div className="w-full max-w-2xl h-[50vh] mx-auto">
-      <Bar data={data} options={options} />
+    <div className="w-full flex flex-row justify-between">
+      <div className="h-full w-full">
+        <h1>Security</h1>
+
+        <div className="h-[40vh] mb-8 ">
+          <Bar data={securityData} options={options} />
+        </div>
+      </div>
+      <div className="h-full w-full">
+        <h1>Operating systems</h1>
+        <div className="h-[40vh] ">
+          <Bar data={osData} options={osOptions} />
+        </div>
+      </div>
     </div>
   );
 }
