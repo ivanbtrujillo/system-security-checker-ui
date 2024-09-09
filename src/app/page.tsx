@@ -20,7 +20,7 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen h-screen flex-col items-center justify-between p-8 bg-zinc-800 text-white">
-      <h1 className="text-4xl font-bold ">
+      <h1 className="text-4xl font-bold mb-4 ">
         iVANTA 🤖 Security Checker Dashboard
       </h1>
 
