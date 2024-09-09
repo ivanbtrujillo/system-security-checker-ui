@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {SecurityReport} from "@/types/security-report";
+import { SecurityReport } from "@/types/security-report";
 
 const getStatusColor = (value: boolean | number | null, type: string) => {
   if (type === "screenLock") {
@@ -18,6 +18,18 @@ const getStatusColor = (value: boolean | number | null, type: string) => {
     }
   }
   return value ? "bg-[rgb(75,192,192)]" : "bg-[rgb(255,99,132)]";
+};
+
+const getReportStatusColor = (report: SecurityReport) => {
+  const { antivirus_detected, disk_encrypted, screen_lock_active } = report;
+
+  if (antivirus_detected && disk_encrypted && screen_lock_active) {
+    return "bg-[rgb(75,192,192)]";
+  }
+  if (antivirus_detected || disk_encrypted || screen_lock_active) {
+    return "bg-orange-500";
+  }
+  return "bg-[rgb(255,99,132)]";
 };
 
 const isOlderThanWeek = (date: string) => {
@@ -51,9 +63,11 @@ export const SecurityReportTable: React.FC<SecurityReportTableProps> = ({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {reports.map(report => (
+          {reports.map((report) => (
             <TableRow key={report.id} className="border-b border-gray-700">
-              <TableCell>{report.email}</TableCell>
+              <TableCell className={getReportStatusColor(report)}>
+                {report.email}
+              </TableCell>
               <TableCell>{report.operating_system}</TableCell>
               <TableCell>{report.os_version}</TableCell>
               <TableCell
