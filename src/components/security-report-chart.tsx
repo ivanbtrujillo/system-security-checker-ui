@@ -81,7 +81,7 @@ export function SecurityStatsChart({reports}: SecurityStatsChartProps) {
     labels: Object.keys(operatingSystemCount),
     datasets: [
       {
-        label: "Sistemas Operativos",
+        label: "Operating Systems",
         data: Object.values(operatingSystemCount),
         backgroundColor: Object.values(osColors),
       },
