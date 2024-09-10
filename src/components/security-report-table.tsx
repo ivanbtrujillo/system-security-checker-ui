@@ -46,7 +46,7 @@ export const SecurityReportTable: React.FC<SecurityReportTableProps> = ({
   reports,
 }) => {
   return (
-    <div className="w-full max-h-[50vh] overflow-auto pt-4">
+    <div className="w-full max-h-[50vh] overflow-auto">
       <Table className="text-white">
         <TableHeader className="bg-zinc-700">
           <TableRow className="border-b border-gray-700">
@@ -82,7 +82,7 @@ export const SecurityReportTable: React.FC<SecurityReportTableProps> = ({
                   "antivirus"
                 )}
               >
-                {report.antivirus_detected ? "Yes" : "No"}
+                {report.antivirus_detected ? "Protected" : "Not Protected"}
               </TableCell>
               <TableCell>{report.antivirus_name || "N/A"}</TableCell>
               <TableCell
@@ -91,7 +91,7 @@ export const SecurityReportTable: React.FC<SecurityReportTableProps> = ({
                   "screenLock"
                 )}
               >
-                {report.screen_lock_active ? "Yes" : "No"}
+                {report.screen_lock_active ? "Enabled" : "Disabled"}
               </TableCell>
               <TableCell
                 className={getStatusColor(
