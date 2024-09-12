@@ -1,4 +1,24 @@
 @tailwind base;
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--secondary)) hsl(var(--primary));
+}
+
+/* Add these new styles for webkit browsers */
+*::-webkit-scrollbar {
+  width: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: hsl(var(--primary));
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: hsl(var(--secondary));
+  border-radius: 4px;
+}
+
 @tailwind components;
 @tailwind utilities;
 
