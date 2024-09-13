@@ -1,19 +1,17 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase";
-import { SecurityReport } from "@/types/security-report";
-import { SecurityReportTable } from "@/components/security-report-table";
-import { SecurityStatsChart } from "@/components/security-report-chart";
+import {useEffect, useState} from "react";
+import {supabase} from "@/lib/supabase";
+import {SecurityReport} from "@/types/security-report";
+import {SecurityReportTable} from "@/components/security-report-table";
+import {SecurityStatsChart} from "@/components/security-report-chart";
 
 export default function Home() {
   const [reports, setReports] = useState<SecurityReport[]>([]);
 
   useEffect(() => {
     async function fetchReports() {
-      const { data, error } = await supabase
-        .from("security_reports")
-        .select("*");
+      const {data, error} = await supabase.from("security_reports").select("*");
       if (error) console.error("Error fetching reports:", error);
       else setReports(data || []);
     }

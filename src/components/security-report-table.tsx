@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { SecurityReport } from "@/types/security-report";
+import {SecurityReport} from "@/types/security-report";
 
 const getStatusColor = (value: boolean | number | null, type: string) => {
   if (type === "screenLock") {
@@ -21,7 +21,7 @@ const getStatusColor = (value: boolean | number | null, type: string) => {
 };
 
 const getReportStatusColor = (report: SecurityReport) => {
-  const { antivirus_detected, disk_encrypted, screen_lock_active } = report;
+  const {antivirus_detected, disk_encrypted, screen_lock_active} = report;
 
   if (antivirus_detected && disk_encrypted && screen_lock_active) {
     return "bg-[rgb(75,192,192)]";
@@ -51,6 +51,9 @@ export const SecurityReportTable: React.FC<SecurityReportTableProps> = ({
         <TableHeader className="bg-zinc-700">
           <TableRow className="border-b border-gray-700">
             <TableHead className="text-gray-300">Email</TableHead>
+            <TableHead className="text-gray-300">
+              Device ID (Serial Number)
+            </TableHead>
             <TableHead className="text-gray-300">Operating System</TableHead>
             <TableHead className="text-gray-300">OS version</TableHead>
             <TableHead className="text-gray-300">Disk encrypted</TableHead>
@@ -63,11 +66,16 @@ export const SecurityReportTable: React.FC<SecurityReportTableProps> = ({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {reports.map((report) => (
-            <TableRow key={report.id} className="border-b border-gray-700">
+          {reports.map(report => (
+            <TableRow
+              key={`${report.user_id}-${report.device_id}`}
+              className="border-b border-gray-700"
+            >
               <TableCell className={getReportStatusColor(report)}>
                 {report.email}
               </TableCell>
+
+              <TableCell>{report.device_id}</TableCell>
               <TableCell>{report.operating_system}</TableCell>
               <TableCell>{report.os_version}</TableCell>
               <TableCell
@@ -99,7 +107,9 @@ export const SecurityReportTable: React.FC<SecurityReportTableProps> = ({
                   "screenLock"
                 )}
               >
-                {`${report.screen_lock_time} min` || "N/A"}
+                {report.screen_lock_time
+                  ? `${report.screen_lock_time} min`
+                  : "N/A"}
               </TableCell>
               <TableCell
                 className={
